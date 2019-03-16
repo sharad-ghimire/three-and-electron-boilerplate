@@ -6,7 +6,7 @@ const ratio = width / height;
 const init = () => {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, ratio, 1, 1000);
-  camera.position.z = 5;
+  camera.position.z = 10;
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -15,13 +15,11 @@ const init = () => {
 
   document.getElementById('webgl').append(renderer.domElement);
 
-  const sphere = getSphere(1, 10, 10, 0xffcc00);
+  const sphere = getSphere(2, 20, 20, 0xffcc00);
   const pointLight = getPointLight(0xffffff, 1, 500);
   scene.add(sphere);
   scene.add(pointLight);
   pointLight.position.set(10, 0, 25);
-
-  renderer.render(scene, camera);
 
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -29,6 +27,12 @@ const init = () => {
 
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
+
+  const render = () => {
+    requestAnimationFrame(render);
+    renderer.render(scene, camera);
+  };
+  render();
 };
 
 const getSphere = (radius, width, height, color) => {
